@@ -1,0 +1,16 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
+
+{% if study_list %}
+<h2>Active Studies</h2>
+    <ul>
+    {% for study in study_list %}
+        <li><a href={{ study.id }}>
+            {{ study.name }}: {{study.region.name}}
+        </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No studies created yet.</p>
+{% endif %}

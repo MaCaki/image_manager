@@ -1,0 +1,6 @@
+export IM_ENv=dev
+
+export IM_POSTGRES_NAME=image_manager_db
+export IM_POSTGRES_USER=image_manager
+export IM_POSTGRES_PASSWORD=image_manager
+export IM_POSTGRES_HOST=localhost
