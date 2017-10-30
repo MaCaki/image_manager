@@ -1,11 +1,23 @@
+# Image Manager and Grading Application
+
+A small django application for the managing images collected as part of medical
+studies and allowing users to assign grades relating to Trachoma infection.
 
 
-Setting up the dev env.
+### Development Environment.
+To set up the dev environment do the following:
 
-1) install postgres.  If on a mac this can be done using
-    `brew install postgres`.
-2) run `initdb` to create the database cluster.
-3) run `createdb image_manager_db` to create the app database.
-4) Create app user: run `psql postgres` then execute:
-    CREATE ROLE image_manager WITH LOGIN PASSWORD 'image_manager'
-    GRANT ALL PRIVILEGES ON DATABASE image_manager_db TO image_manager;
+1) Install Docker.
+
+2) Run `. dev/setup_db.sh`
+
+3) Run `python manage.py migrate`
+
+4) Run `. dev/runserver.sh`
+
+#### Testing
+
+To run the tests, run
+```bash
+ . dev/run_tests.sh
+```
