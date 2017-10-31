@@ -6,7 +6,7 @@ PGPASSWORD='dev_db_password'
 
 # if the container is not created yet, build it.
 if [ ! "$(docker ps -a -f name=image_manger_dev_db)" ]; then
-    echo 'Creating new postgre container...'
+    echo 'Creating new postgres container...'
     docker run --name image_manger_dev_db -p 5432:5432 -e POSTGRES_PASSWORD=$PGPASSWORD -d postgres
 else
     echo 'Restarting the postgres conainer...'
