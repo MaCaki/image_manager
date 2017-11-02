@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 class Region(models.Model):
     name = models.CharField(max_length=1000)
@@ -23,3 +23,6 @@ class EyeLid(models.Model):
     uploaded = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to="")
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('core:eyelid_detail', kwargs={'pk': self.pk})
