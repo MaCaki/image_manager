@@ -16,9 +16,9 @@ class StudyDetailView(generic.DetailView):
     template_name = 'core/study_detail.html'
 
 
-class AuthorCreate(generic.edit.CreateView):
+class StudyCreateView(generic.edit.CreateView):
     model = Study
-    fields = ['name', 'location', 'description']
+    fields = ['name', 'region', 'description']
 
 # Image editor post.
 # https://conservancy.umn.edu/bitstream/handle/11299/107353/oh375mh.pdf?sequence=1&isAllowed=y

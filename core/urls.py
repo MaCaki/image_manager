@@ -10,5 +10,6 @@ urlpatterns = [
         r'^(?P<pk>[0-9]+)/$',
         views.StudyDetailView.as_view(),
         name='study-detail'
-    )
+    ),
+    url(r'^create-study/$', views.StudyCreateView.as_view(), name='create-study')
 ]
