@@ -39,3 +39,5 @@ for cmnd in "${cmnds[@]}"
 do
     PGPASSWORD=$PGPASSWORD psql -h localhost -U postgres -d postgres -c "$cmnd"
 done
+
+

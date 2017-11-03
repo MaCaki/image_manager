@@ -7,7 +7,7 @@ class Region(models.Model):
 
 class Study(models.Model):
     name = models.CharField(max_length=1000)
-    location = models.ForeignKey(Region)
+    region = models.ForeignKey(Region)
     description = models.TextField()
 
 
