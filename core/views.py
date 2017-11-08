@@ -29,9 +29,27 @@ class StudyDeleteView(generic.edit.DeleteView):
     success_url = reverse_lazy('core:study-index')
 
 
+class PatientDetailView(generic.DetailView):
+    model = Patient
+    template_name = 'core/patient_detail.html'
+
+
 class PatientCreateView(generic.edit.CreateView):
     model = Patient
     fields = ['study', 'patient_uid']
+
+    success_url = reverse_lazy('core:study-index')
+
+    # def post(self, request, *args, **kwargs):
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+    #     files = request.FILES.getlist('file_field')
+    #     if form.is_valid():
+    #         for f in files:
+    #             pass
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
 
 
 class ImageFieldView(generic.edit.FormView):

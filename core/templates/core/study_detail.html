@@ -2,8 +2,21 @@
 
 <h1>{{ study.name }}</h1>
 
-<strong> Description </strong>
+<h2> Description </h2>
 <p>{{ study.description }} </p>
+
+<h2> Patients </h2>
+    <ul>
+    {% for patient in study.patient_set.all %}
+        <li><a href={% url 'core:patient-detail' patient.id %}>
+            {{ patient.id }}
+        </a></li>
+    {% endfor %}
+    </ul>
+
+    <a href={% url 'core:create-patient' %}> Create a new patient </a>
+
+<hr>
 
 <a href={% url 'core:delete-study' study.id %}> DELETE STUDY </a>
 

@@ -26,4 +26,9 @@ urlpatterns = [
         views.PatientCreateView.as_view(),
         name='create-patient'
     ),
+    url(
+        r'^patient/(?P<pk>[0-9]+)/$',
+        views.PatientDetailView.as_view(),
+        name='patient-detail'
+    ),
 ]
