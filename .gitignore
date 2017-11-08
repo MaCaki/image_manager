@@ -72,6 +72,7 @@ target/
 
 # pyenv
 .python-version
+django-env/
 
 # celery beat schedule file
 celerybeat-schedule

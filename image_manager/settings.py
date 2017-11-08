@@ -30,8 +30,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,16 +76,27 @@ WSGI_APPLICATION = 'image_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.env.get('DATABASE_NAME'),
-        'USER': os.env.get('DATABASE_USER'),
-        'PASSWORD': os.env.get('DATABASE_PASSWORD'),
-        'HOST': '',
-        'PORT': '',
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
+else: # We're in the dev environment
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('IM_POSTGRES_NAME'),
+            'USER': os.environ.get('IM_POSTGRES_USER'),
+            'PASSWORD': os.environ.get('IM_POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('IM_POSTGRES_HOST'),
+            'PORT': 5432,
+        }
 }
 
 
@@ -119,6 +132,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SHELL_PLUS = "ipython"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
