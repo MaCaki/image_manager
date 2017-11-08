@@ -1,14 +1,24 @@
 from django.db import models
 from django.urls import reverse
 
+
 class Region(models.Model):
     name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name
 
 
 class Study(models.Model):
     name = models.CharField(max_length=1000)
     region = models.ForeignKey(Region)
     description = models.TextField()
+
+    def __str__(self):
+        return "{}: {}".format(self.name, self.region)
+
+    def get_absolute_url(self):
+        return reverse('core:study-detail', kwargs={'pk': self.pk})
 
 
 class Patient(models.Model):

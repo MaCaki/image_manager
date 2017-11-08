@@ -1,5 +1,9 @@
+<a href={% url 'core:study-index' %}> << all studies </a>
+
 <h1>{{ study.name }}</h1>
 
 <strong> Description </strong>
 <p>{{ study.description }} </p>
+
+<a href={% url 'core:delete-study' study.id %}> DELETE STUDY </a>
 

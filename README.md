@@ -62,8 +62,11 @@ To run the tests, run
 
 #### TODO
 
-1) create some sample studies when initializing the db.
-2) Put the django server in a docker container.
-3) Enable upload of images.
-4) Create a user login flow.
+
+- [ ] Allow creation of a patient by uploading _several_ images at the same time.
+- [ ]  Create a user login flow.
+- [ ] Write functions to add grades for patients from users.
+- [ ] Create a UI to grade patients.
+
+- [ ]  Put the django server in a docker container.
 

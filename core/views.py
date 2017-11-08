@@ -1,8 +1,9 @@
 from django.views import generic
-from django.urls import reverse
+from django.http import HttpResponse
+from django.urls import reverse_lazy
 
 from .forms import ImageFieldForm
-from .models import Study
+from .models import Patient, Study
 
 
 class StudyIndexView(generic.ListView):
@@ -20,11 +21,25 @@ class StudyCreateView(generic.edit.CreateView):
     model = Study
     fields = ['name', 'region', 'description']
 
-# Image editor post.
-# https://conservancy.umn.edu/bitstream/handle/11299/107353/oh375mh.pdf?sequence=1&isAllowed=y
+    # TODO: check if study name already exists.
 
-# https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/
+
+class StudyDeleteView(generic.edit.DeleteView):
+    model = Study
+    success_url = reverse_lazy('core:study-index')
+
+
+class PatientCreateView(generic.edit.CreateView):
+    model = Patient
+    fields = ['study', 'patient_uid']
+
+
 class ImageFieldView(generic.edit.FormView):
+    # Image editor post.
+    # https://conservancy.umn.edu/bitstream/handle/11299/107353/oh375mh.pdf?sequence=1&isAllowed=y
+
+    # https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/
+
     form_class = ImageFieldForm
     template_name = 'upload.html'  # Replace with your template.
 
