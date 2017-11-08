@@ -1,7 +1,9 @@
 # Image Manager and Grading Application
 
-A small django application for the managing images collected as part of medical
+A simple django application for uploading and grading images collected as part of medical
 studies and allowing users to assign grades relating to Trachoma infection.
+This application also exposes access to the images and grades through an API allowing creation
+of training sets for image classification pipelines.
 
 
 ## Application Flow:
@@ -62,9 +64,8 @@ To run the tests, run
 
 #### TODO
 
-
 - [ ] Allow creation of a patient by uploading _several_ images at the same time.
-- [ ]  Create a user login flow.
+- [ ] Create a user login flow.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 
