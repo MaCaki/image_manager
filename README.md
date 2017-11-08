@@ -18,6 +18,16 @@ studies and allowing users to assign grades relating to Trachoma infection.
 3) User clicks on a patient.  They can issue a new grade for a new patient, or create a new grade for a patient they've already graded.
 
 
+### Deployment to AWS Elastic Beanstalk
+
+To initialize the eb local environment.
+Create the eb remote environment.
+Deploy and verify.
+Create the database.
+Configure S3 buckets.
+
+#### Deploying local changes when developing.
+
 
 ## Development Environment.
 
