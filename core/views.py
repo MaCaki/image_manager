@@ -1,6 +1,6 @@
 from django.views import generic
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from .forms import ImageFieldForm
 from .models import Patient, Study
@@ -36,9 +36,24 @@ class PatientDetailView(generic.DetailView):
 
 class PatientCreateView(generic.edit.CreateView):
     model = Patient
-    fields = ['study', 'patient_uid']
+    fields = ['uid']
 
-    success_url = reverse_lazy('core:study-index')
+    def get_absolute_url(self):
+        """Go back to the study detail page."""
+        return reverse('core:study-detail', kwargs={'pk': self.pk})
+
+    def get_form(self):
+        form = super(PatientCreateView, self).get_form(self.form_class)
+        # artical_id - is a name of foreign key defined the Comment model.
+        form.instance.study_id = self.kwargs.get('pk', None)
+        return form
+
+    def get_context_data(self, **kwargs):
+        """We need to also get the study object and pass it to the template."""
+        context = super(PatientCreateView, self).get_context_data(**kwargs)
+        # the pk passed to this view is that of the attached study.
+        context['study'] = Study.objects.get(pk=self.kwargs.get('pk', None))
+        return context
 
     # def post(self, request, *args, **kwargs):
     #     form_class = self.get_form_class()

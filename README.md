@@ -48,11 +48,14 @@ To set up the dev database do the following:
 
 2) Install Postgres (for the `psql` command line clinent): `brew install postgres`
 
-3) Run `. dev/setup_db.sh`
+3) Run `. dev/setup_db.sh` to stand up a docker image runnning Postgres
 
-4) Run `python manage.py migrate`
+4) Run `python manage.py migrate` to set up the app schemas.
 
-5) Run `. dev/runserver.sh`
+5) Then run `. dev/init_db.sh` to create some test data.
+
+6) Run `. dev/runserver.sh` to start the web server. Visit the localhost:8000/ to ensure that it's running.
+
 
 #### Testing
 

@@ -24,7 +24,10 @@ class Study(models.Model):
 class Patient(models.Model):
     """An anonymized subject of a Trachoma study."""
     study = models.ForeignKey(Study)
-    patient_uid = models.IntegerField(default=0)
+    uid = models.IntegerField(default=0, unique=True)
+
+    def get_absolute_url(self):
+        return reverse('core:patient-detail', kwargs={'pk': self.pk})
 
 
 class EyeLid(models.Model):
