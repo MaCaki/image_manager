@@ -2,5 +2,13 @@
 
 <p>
     This patient is a part of the study {{ patient.study.name   }}
+
+    {% for eyelid in patient.eyelid_set.all %}
+        <li>  IMAGE: {{ eyelid }} </li>
+    {% endfor %}
+    </ul>
+
+    <br>
+    <a href={% url 'core:upload-eyelids' patient.id %}> Add Eyelid Pictures </a>
 </p>
 

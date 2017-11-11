@@ -26,6 +26,9 @@ class Patient(models.Model):
     study = models.ForeignKey(Study)
     uid = models.IntegerField(default=0, unique=True)
 
+    def __str__(self):
+        return str(self.uid)
+
     def get_absolute_url(self):
         return reverse('core:patient-detail', kwargs={'pk': self.pk})
 
@@ -34,8 +37,15 @@ class EyeLid(models.Model):
     """A wrapper around a stored image file of an eyelid."""
     tagline = models.TextField()
     uploaded = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to="")
+    # TODO: redirect this to the default file storage for env.
+    image = models.ImageField(upload_to="data/uploaded")
+    # TODO: add an index on this field
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Image: {}, {}, {}".format(
+            self.image, self.uploaded, self.patient
+        )
 
     def get_absolute_url(self):
         return reverse('core:eyelid_detail', kwargs={'pk': self.pk})
