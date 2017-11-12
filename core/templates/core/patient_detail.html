@@ -6,7 +6,7 @@
     This patient is a part of the study {{ patient.study.name   }}
 
     {% for eyelid in patient.eyelid_set.all %}
-        <li>  IMAGE: {{ eyelid }} </li>
+        <li>  <img src="{{ eyelid.image.url }}"> </li>
     {% endfor %}
     </ul>
 

@@ -38,8 +38,8 @@ class PatientCreateView(generic.edit.CreateView):
     fields = ['uid']
 
     def get_absolute_url(self):
-        """Go back to the study detail page."""
-        return reverse('core:study-detail', kwargs={'pk': self.pk})
+        """Upload images."""
+        return reverse('core:upload-eyelids', kwargs={'pk': self.pk})
 
     def get_form(self):
         form = super(PatientCreateView, self).get_form(self.form_class)
@@ -53,17 +53,6 @@ class PatientCreateView(generic.edit.CreateView):
         # the pk passed to this view is that of the attached study.
         context['study'] = Study.objects.get(pk=self.kwargs.get('pk', None))
         return context
-
-    # def post(self, request, *args, **kwargs):
-    #     form_class = self.get_form_class()
-    #     form = self.get_form(form_class)
-    #     files = request.FILES.getlist('file_field')
-    #     if form.is_valid():
-    #         for f in files:
-    #             pass
-    #         return self.form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
 
 
 class EyeLidUploadView(generic.edit.FormView):

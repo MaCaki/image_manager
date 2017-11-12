@@ -67,7 +67,9 @@ To run the tests, run
 
 #### TODO
 
-- [ ] Allow creation of a patient by uploading _several_ images at the same time.
+- [X] Allow creation of a patient by uploading _several_ images at the same time.
+- [ ] Display images under each patient.
+- [ ] Store images in S3 in production.
 - [ ] Create a user login flow.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.

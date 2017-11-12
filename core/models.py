@@ -38,7 +38,8 @@ class EyeLid(models.Model):
     tagline = models.TextField()
     uploaded = models.DateTimeField(auto_now=True)
     # TODO: redirect this to the default file storage for env.
-    image = models.ImageField(upload_to="data/uploaded")
+    #  https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+    image = models.ImageField()
     patient = models.ForeignKey(
         Patient,
         db_index=True,

@@ -1,5 +1,9 @@
+<a href={% url 'core:patient-detail' patient.id %}> << Back to Patient </a>
 <h1>Upload Eyelids for Patient {{ patient.uid }}</h1>
 
+<p>
+    Select all of the eyelid images for this patient.
+</p>
 <form enctype="multipart/form-data" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save" />
