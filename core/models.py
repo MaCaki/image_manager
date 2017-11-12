@@ -39,8 +39,11 @@ class EyeLid(models.Model):
     uploaded = models.DateTimeField(auto_now=True)
     # TODO: redirect this to the default file storage for env.
     image = models.ImageField(upload_to="data/uploaded")
-    # TODO: add an index on this field
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(
+        Patient,
+        db_index=True,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return "Image: {}, {}, {}".format(

@@ -91,12 +91,14 @@ class EyeLidUploadView(generic.edit.FormView):
         patent_id = self.kwargs.get('pk', None)
         patient = Patient.objects.get(pk=patent_id)
         form = self.get_form(self.form_class)
-        image = request.FILES['image']
+        images = request.FILES.getlist('image')
 
         if form.is_valid():
-            print('Form is Valid')
-            eyelid = EyeLid(image=image, patient=patient)
-            eyelid.save()
+            # TODO: don't upload duplicate file names.
+            for image in images:
+                eyelid = EyeLid(image=image, patient=patient)
+                eyelid.save()
+
             return self.form_valid(form)
 
         else:
