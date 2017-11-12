@@ -1,8 +1,18 @@
 from django import forms
 
+from .models import EyeLid
 
-class ImageFieldForm(forms.Form):
+
+class EyelidForm(forms.ModelForm):
     """Form for bulk uploading images."""
-    file_field = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True})
+    class Meta:
+        model = EyeLid
+        fields = ['image']
+
+
+class UploadImageForm(forms.Form):
+    image = forms.ImageField(
+        widget=forms.ClearableFileInput(
+            attrs={'multiple': True}
+        )
     )

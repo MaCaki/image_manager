@@ -24,15 +24,32 @@ class Study(models.Model):
 class Patient(models.Model):
     """An anonymized subject of a Trachoma study."""
     study = models.ForeignKey(Study)
-    patient_uid = models.IntegerField(default=0)
+    uid = models.IntegerField(default=0, unique=True)
+
+    def __str__(self):
+        return str(self.uid)
+
+    def get_absolute_url(self):
+        return reverse('core:patient-detail', kwargs={'pk': self.pk})
 
 
 class EyeLid(models.Model):
     """A wrapper around a stored image file of an eyelid."""
     tagline = models.TextField()
     uploaded = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to="")
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    # TODO: redirect this to the default file storage for env.
+    #  https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+    image = models.ImageField()
+    patient = models.ForeignKey(
+        Patient,
+        db_index=True,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return "Image: {}, {}, {}".format(
+            self.image, self.uploaded, self.patient
+        )
 
     def get_absolute_url(self):
         return reverse('core:eyelid_detail', kwargs={'pk': self.pk})

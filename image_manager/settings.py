@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -23,7 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_g96%rg6)an9jq=975o@ppad@y49&mq74^!^&uf+0uyh%f_x8p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ['IM_ENV'] == 'dev':
+    DEBUG = True
+    DEV_ENV = True
 
 ALLOWED_HOSTS = []
 
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'core.apps.CoreConfig',
+    'storages',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,7 +78,22 @@ WSGI_APPLICATION = 'image_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-if 'RDS_HOSTNAME' in os.environ:
+if os.environ['IM_ENV'] == 'dev':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('IM_POSTGRES_NAME'),
+            'USER': os.environ.get('IM_POSTGRES_USER'),
+            'PASSWORD': os.environ.get('IM_POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('IM_POSTGRES_HOST'),
+            'PORT': 5432,
+        }
+    }
+    # store image files locally in the same directory.
+    MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
+    MEDIA_URL = "/media/"
+
+else:  # We're in production environment.
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -87,18 +104,9 @@ if 'RDS_HOSTNAME' in os.environ:
             'PORT': os.environ['RDS_PORT'],
         }
     }
-else: # We're in the dev environment
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ.get('IM_POSTGRES_NAME'),
-            'USER': os.environ.get('IM_POSTGRES_USER'),
-            'PASSWORD': os.environ.get('IM_POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('IM_POSTGRES_HOST'),
-            'PORT': 5432,
-        }
-}
 
+    # Use s3 in production.
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

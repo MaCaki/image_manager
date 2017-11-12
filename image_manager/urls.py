@@ -13,14 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import (
     include,
     url
 )
 from django.contrib import admin
-
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls')),  # redirect to the core app.
 ]
+
+if settings.DEV_ENV:
+    # In the dev envionment we have to serve the media files directly from
+    # disk.
+    # https://docs.djangoproject.com/en/1.10/ref/urls/#django.conf.urls.static.static
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )

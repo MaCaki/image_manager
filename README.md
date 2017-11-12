@@ -1,7 +1,9 @@
 # Image Manager and Grading Application
 
-A small django application for the managing images collected as part of medical
+A simple django application for uploading and grading images collected as part of medical
 studies and allowing users to assign grades relating to Trachoma infection.
+This application also exposes access to the images and grades through an API allowing creation
+of training sets for image classification pipelines.
 
 
 ## Application Flow:
@@ -46,11 +48,14 @@ To set up the dev database do the following:
 
 2) Install Postgres (for the `psql` command line clinent): `brew install postgres`
 
-3) Run `. dev/setup_db.sh`
+3) Run `. dev/setup_db.sh` to stand up a docker image runnning Postgres
 
-4) Run `python manage.py migrate`
+4) Run `python manage.py migrate` to set up the app schemas.
 
-5) Run `. dev/runserver.sh`
+5) Then run `. dev/init_db.sh` to create some test data.
+
+6) Run `. dev/runserver.sh` to start the web server. Visit the localhost:8000/ to ensure that it's running.
+
 
 #### Testing
 
@@ -62,9 +67,10 @@ To run the tests, run
 
 #### TODO
 
-
-- [ ] Allow creation of a patient by uploading _several_ images at the same time.
-- [ ]  Create a user login flow.
+- [X] Allow creation of a patient by uploading _several_ images at the same time.
+- [ ] Display images under each patient.
+- [ ] Store images in S3 in production.
+- [ ] Create a user login flow.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 

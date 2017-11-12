@@ -9,12 +9,12 @@
     <ul>
     {% for patient in study.patient_set.all %}
         <li><a href={% url 'core:patient-detail' patient.id %}>
-            {{ patient.id }}
+            {{ patient.uid }}
         </a></li>
     {% endfor %}
     </ul>
 
-    <a href={% url 'core:create-patient' %}> Create a new patient </a>
+    <a href={% url 'core:create-patient' study.id %}> Create a new patient </a>
 
 <hr>
 

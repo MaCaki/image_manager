@@ -1,4 +1,6 @@
-export IM_ENv=dev
+# Explictly state that we are in the dev environment so that we can
+# appropriately configure the database and file storage.
+export IM_ENV=dev
 
 export IM_POSTGRES_NAME=image_manager_db
 export IM_POSTGRES_USER=image_manager

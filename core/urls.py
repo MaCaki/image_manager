@@ -22,7 +22,7 @@ urlpatterns = [
         name='delete-study'
     ),
     url(
-        r'^create-patient/$',
+        r'^(?P<pk>[0-9]+)/create-patient$',
         views.PatientCreateView.as_view(),
         name='create-patient'
     ),
@@ -30,5 +30,10 @@ urlpatterns = [
         r'^patient/(?P<pk>[0-9]+)/$',
         views.PatientDetailView.as_view(),
         name='patient-detail'
+    ),
+    url(
+        r'^patient/(?P<pk>[0-9]+)/upload_eyelids$',
+        views.EyeLidUploadView.as_view(),
+        name='upload-eyelids'
     ),
 ]

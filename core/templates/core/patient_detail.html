@@ -1,1 +1,16 @@
-Patient {{ patient.id }} details.
+<a href={% url 'core:study-detail' patient.study_id %}> << Back to study </a>
+
+<h3> Patient {{ patient.uid }} details</h3>
+
+<p>
+    This patient is a part of the study {{ patient.study.name   }}
+
+    {% for eyelid in patient.eyelid_set.all %}
+        <li>  <img src="{{ eyelid.image.url }}"> </li>
+    {% endfor %}
+    </ul>
+
+    <br>
+    <a href={% url 'core:upload-eyelids' patient.id %}> Add Eyelid Pictures </a>
+</p>
+
