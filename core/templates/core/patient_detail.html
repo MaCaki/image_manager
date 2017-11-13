@@ -1,16 +1,25 @@
-<a href={% url 'core:study-detail' patient.study_id %}> << Back to study </a>
+{% extends 'base.html' %}
 
-<h3> Patient {{ patient.uid }} details</h3>
+{% block title %}Patient {{ patient.uid }}{% endblock %}
+
+{% block content %}
+
+<a href={% url 'core:study-detail' patient.study_id %}> << Back to study </a>
 
 <p>
     This patient is a part of the study {{ patient.study.name   }}
 
     {% for eyelid in patient.eyelid_set.all %}
-        <li>  <img src="{{ eyelid.image.url }}"> </li>
+        <li>  <img src="{{ eyelid.image.url }}" height=400> </li>
     {% endfor %}
     </ul>
 
     <br>
-    <a href={% url 'core:upload-eyelids' patient.id %}> Add Eyelid Pictures </a>
+    <a href={% url 'core:upload-eyelids' patient.id %}>
+        <h3> Add Eyelid Pictures </h3>
+    </a>
 </p>
+
+
+{% endblock %}
 

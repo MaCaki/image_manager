@@ -1,17 +1,29 @@
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .forms import EyelidForm, UploadImageForm
+
+from .forms import UploadImageForm
 from .models import EyeLid, Patient, Study
 
 
-class StudyIndexView(generic.ListView):
+class ImageManagerBase(LoginRequiredMixin):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
+
+class UserHomeView(LoginRequiredMixin, generic.DetailView):
+    model = User
+
+
+class StudyIndexView(ImageManagerBase, generic.ListView):
     """The landing page for the app is a list of studies to grade for."""
     model = Study
     template_name = 'core/study_index.html'
 
 
-class StudyDetailView(generic.DetailView):
+class StudyDetailView(ImageManagerBase, generic.DetailView):
     model = Study
     template_name = 'core/study_detail.html'
 
@@ -19,7 +31,6 @@ class StudyDetailView(generic.DetailView):
 class StudyCreateView(generic.edit.CreateView):
     model = Study
     fields = ['name', 'region', 'description']
-
     # TODO: check if study name already exists.
 
 

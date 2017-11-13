@@ -5,6 +5,7 @@ from . import views
 app_name = 'core'
 
 urlpatterns = [
+    url(r'^users/home', views.UserHomeView.as_view(), name='user-home'),
     url(r'^$', views.StudyIndexView.as_view(), name='study-index'),
     url(
         r'^(?P<pk>[0-9]+)/$',

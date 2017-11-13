@@ -35,7 +35,7 @@ Configure S3 buckets.
 
 Create a virtual environment for dev.  From within the /image_manager directory run:
 
-```
+```bash
 python3 -m venv django-env -r=requirements.txt
 . django-env/bin/activate
 pip install -r requirements.txt
@@ -56,6 +56,14 @@ To set up the dev database do the following:
 
 6) Run `. dev/runserver.sh` to start the web server. Visit the localhost:8000/ to ensure that it's running.
 
+Create an admin user for the development application:
+```bash
+python manager.py createsuperuser
+Username: admin
+Email address:
+Password: adminpass123
+```
+
 
 #### Testing
 
@@ -68,9 +76,13 @@ To run the tests, run
 #### TODO
 
 - [X] Allow creation of a patient by uploading _several_ images at the same time.
-- [ ] Display images under each patient.
+- [X] Display images under each patient.
+- [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
+- [ ] Allow changin password.
+- [ ] Add SuperuserRequiredMixin to delete views.
+
 - [ ] Store images in S3 in production.
-- [ ] Create a user login flow.
+- [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 

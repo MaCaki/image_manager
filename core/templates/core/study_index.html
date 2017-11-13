@@ -1,9 +1,10 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
+{% block title %}Active Studies{% endblock %}
+
+{% block content %}
 
 {% if study_list %}
-<h2>Active Studies</h2>
     <ul>
     {% for study in study_list %}
         <li><a href={{ study.id }}>
@@ -16,3 +17,5 @@
 {% endif %}
 
 <a href={% url 'core:create-study' %}> Create a new Study </a>
+
+{% endblock %}

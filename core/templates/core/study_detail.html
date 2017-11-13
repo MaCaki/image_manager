@@ -1,9 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ study.name }}{% endblock %}
+
+{% block content %}
+
 <a href={% url 'core:study-index' %}> << all studies </a>
 
-<h1>{{ study.name }}</h1>
-
 <h2> Description </h2>
-<p>{{ study.description }} </p>
+<p>
+    {{ study.description }}
+    <br><br>
+    <strong>Region:</strong> {{ study.region.name }}
+</p>
 
 <h2> Patients </h2>
     <ul>
@@ -14,9 +23,13 @@
     {% endfor %}
     </ul>
 
-    <a href={% url 'core:create-patient' study.id %}> Create a new patient </a>
+    <a href={% url 'core:create-patient' study.id %}> [+] Create a new patient </a>
 
-<hr>
+<br>
+<br>
 
-<a href={% url 'core:delete-study' study.id %}> DELETE STUDY </a>
+<a href={% url 'core:delete-study' study.id %}> [X] DELETE STUDY </a>
+
+
+{% endblock %}
 

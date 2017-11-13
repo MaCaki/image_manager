@@ -1,5 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Eyelids for Patient {{ patient.uid }}{% endblock %}
+
+{% block content %}
+
 <a href={% url 'core:patient-detail' patient.id %}> << Back to Patient </a>
-<h1>Upload Eyelids for Patient {{ patient.uid }}</h1>
 
 <p>
     Select all of the eyelid images for this patient.
@@ -8,3 +13,5 @@
     {{ form.as_p }}
     <input type="submit" value="Save" />
 </form>
+
+{% endblock %}
