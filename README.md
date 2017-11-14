@@ -78,7 +78,7 @@ To run the tests, run
 - [X] Allow creation of a patient by uploading _several_ images at the same time.
 - [X] Display images under each patient.
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
-- [ ] Allow changin password.
+- [ ] Allow users to change password.
 - [ ] Add SuperuserRequiredMixin to delete views.
 
 - [ ] Store images in S3 in production.

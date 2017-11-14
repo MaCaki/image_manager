@@ -5,6 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>Proctor Foundation Trachoma Grading Center</title>
+  <h4><a href="{% url 'core:study-index' %}">[home]</a></h4>
   <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
 </head>
 <body>
@@ -13,8 +14,9 @@
 
       <div align=right>
         {% if user.is_authenticated %}
-          Logged in as {{ user.username }}!
-          <a href="{% url 'logout' %}">logout</a>
+          Logged in as <a href="{% url 'core:user-home' %}"> {{ user.username }}! </a>
+          >>
+          <a href="{% url 'logout' %}"> LOGOUT </a>
         {% else %}
           <a href="{% url 'login' %}">login</a>
         {% endif %}

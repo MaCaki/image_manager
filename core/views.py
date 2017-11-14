@@ -15,6 +15,12 @@ class ImageManagerBase(LoginRequiredMixin):
 
 class UserHomeView(LoginRequiredMixin, generic.DetailView):
     model = User
+    template_name = 'account/profile.html'
+
+    def get_object(self):
+        current_user = self.request.user
+
+        return current_user
 
 
 class StudyIndexView(ImageManagerBase, generic.ListView):
