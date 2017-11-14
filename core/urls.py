@@ -33,6 +33,11 @@ urlpatterns = [
         name='patient-detail'
     ),
     url(
+        r'^patient/(?P<patient_pk>[0-9]+)/eyelids/(?P<pk>[0-9]+)$',
+        views.EyelidDetailView.as_view(),
+        name='eyelid-detail'
+    ),
+    url(
         r'^patient/(?P<pk>[0-9]+)/upload_eyelids$',
         views.EyeLidUploadView.as_view(),
         name='upload-eyelids'

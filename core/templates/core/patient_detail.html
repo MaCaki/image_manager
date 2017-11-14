@@ -10,7 +10,13 @@
     This patient is a part of the study {{ patient.study.name   }}
 
     {% for eyelid in patient.eyelid_set.all %}
-        <li>  <img src="{{ eyelid.image.url }}" height=400> </li>
+
+        <li>
+            <a href="{% url 'core:eyelid-detail'  patient.id eyelid.id %}">
+                <img src="{{ eyelid.image.url }}" height=400>
+            </a>
+        </li>
+
     {% endfor %}
     </ul>
 
