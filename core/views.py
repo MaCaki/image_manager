@@ -1,39 +1,62 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .forms import EyelidForm, UploadImageForm
+
+from .forms import UploadImageForm
 from .models import EyeLid, Patient, Study
 
 
-class StudyIndexView(generic.ListView):
+class ImageManagerBase(LoginRequiredMixin):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
+
+class UserHomeView(ImageManagerBase, generic.DetailView):
+    model = User
+    template_name = 'account/profile.html'
+
+    def get_object(self):
+        """We override this function as there is no pk passed from the url."""
+        current_user = self.request.user
+
+        return current_user
+
+
+class StudyIndexView(ImageManagerBase, generic.ListView):
     """The landing page for the app is a list of studies to grade for."""
     model = Study
     template_name = 'core/study_index.html'
 
 
-class StudyDetailView(generic.DetailView):
+class StudyDetailView(ImageManagerBase, generic.DetailView):
     model = Study
     template_name = 'core/study_detail.html'
 
 
-class StudyCreateView(generic.edit.CreateView):
+class StudyCreateView(ImageManagerBase, generic.edit.CreateView):
     model = Study
     fields = ['name', 'region', 'description']
-
     # TODO: check if study name already exists.
 
 
-class StudyDeleteView(generic.edit.DeleteView):
+class StudyDeleteView(ImageManagerBase, generic.edit.DeleteView):
     model = Study
     success_url = reverse_lazy('core:study-index')
 
 
-class PatientDetailView(generic.DetailView):
+class PatientDetailView(ImageManagerBase, generic.DetailView):
     model = Patient
     template_name = 'core/patient_detail.html'
 
 
-class PatientCreateView(generic.edit.CreateView):
+class EyelidDetailView(ImageManagerBase, generic.DetailView):
+    model = EyeLid
+    template_name = 'core/eyelid_detail.html'
+
+
+class PatientCreateView(ImageManagerBase, generic.edit.CreateView):
     model = Patient
     fields = ['uid']
 
@@ -55,7 +78,7 @@ class PatientCreateView(generic.edit.CreateView):
         return context
 
 
-class EyeLidUploadView(generic.edit.FormView):
+class EyeLidUploadView(ImageManagerBase, generic.edit.FormView):
     # Image editor post.
     # https://conservancy.umn.edu/bitstream/handle/11299/107353/oh375mh.pdf?sequence=1&isAllowed=y
 

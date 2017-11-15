@@ -5,6 +5,7 @@ from . import views
 app_name = 'core'
 
 urlpatterns = [
+    url(r'^users/home', views.UserHomeView.as_view(), name='user-home'),
     url(r'^$', views.StudyIndexView.as_view(), name='study-index'),
     url(
         r'^(?P<pk>[0-9]+)/$',
@@ -30,6 +31,11 @@ urlpatterns = [
         r'^patient/(?P<pk>[0-9]+)/$',
         views.PatientDetailView.as_view(),
         name='patient-detail'
+    ),
+    url(
+        r'^patient/(?P<patient_pk>[0-9]+)/eyelids/(?P<pk>[0-9]+)$',
+        views.EyelidDetailView.as_view(),
+        name='eyelid-detail'
     ),
     url(
         r'^patient/(?P<pk>[0-9]+)/upload_eyelids$',
