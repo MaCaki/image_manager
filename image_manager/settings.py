@@ -24,6 +24,7 @@ SECRET_KEY = '_g96%rg6)an9jq=975o@ppad@y49&mq74^!^&uf+0uyh%f_x8p'
 DEBUG = False
 DEV_ENV = False
 PROD_ENV = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['IM_ENV'] == 'dev':
     DEBUG = True
@@ -84,7 +85,7 @@ WSGI_APPLICATION = 'image_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-if os.environ['IM_ENV'] == 'dev':
+if DEV_ENV:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -99,7 +100,7 @@ if os.environ['IM_ENV'] == 'dev':
     MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
     MEDIA_URL = "/media/"
 
-else:  # We're in production environment.
+elif PROD_ENV:  # We're in production environment.
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
