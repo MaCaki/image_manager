@@ -53,7 +53,7 @@ elif os.environ['IM_ENV'] == 'prod':
         },
     }
 
-ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['.elasticbeanstalk.com']
 
 
 # Application definition
