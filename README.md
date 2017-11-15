@@ -22,7 +22,15 @@ of training sets for image classification pipelines.
 
 ### Deployment to AWS Elastic Beanstalk
 
+Install the EBCLI
+```
+pip install awsebcli --upgrade --user
+```
+
 To initialize the eb local environment.
+```
+eb init -p python3.6 image_manager
+```
 Create the eb remote environment.
 Deploy and verify.
 Create the database.
@@ -78,13 +86,17 @@ To run the tests, run
 - [X] Allow creation of a patient by uploading _several_ images at the same time.
 - [X] Display images under each patient.
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
-- [ ] Allow users to change password.
-- [ ] Add SuperuserRequiredMixin to delete views.
-
+- [X] Allow users to change password.
 - [ ] Store images in S3 in production.
+- [ ] Add api endpoint to request images filenames and grades with API key.
+
 - [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 
-- [ ]  Put the django server in a docker container.
+Deployment Infrastructure
+https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/
+- [ ] Deploy from Github
+- [ ] Set up an SMTP server using aws.ses.
+- [ ] Put the django server in a docker container.
 
