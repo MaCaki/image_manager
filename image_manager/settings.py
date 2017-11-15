@@ -32,6 +32,26 @@ if os.environ['IM_ENV'] == 'dev':
 
 elif os.environ['IM_ENV'] == 'prod':
     PROD_ENV = True
+    PROD_LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': PROD_LOG_FILE,
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
+    }
 
 ALLOWED_HOSTS = []
 
