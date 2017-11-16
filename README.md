@@ -119,6 +119,7 @@ To run the tests, run
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
 - [X] Allow users to change password.
 - [ ] Store images in S3 in production.
+- [ ] Change Study creation to allow for creation of Region at the same time.
 - [ ] Add api endpoint to request images filenames and grades with API key.
 
 - [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
