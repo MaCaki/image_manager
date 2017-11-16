@@ -30,7 +30,7 @@ being sure to add `~/Library/Python/X.Y/bin` to your bash $PATH.
 
 To initialize the eb local environment.
 ```
-eb init -p python3.6 image_manager
+eb init -p python3.6 image-manager
 ```
 then `eb init` one more time to generate ssh keys to login to the machines that
 AWS creates.
@@ -47,16 +47,19 @@ IM_ENV = 'prod'
 ```
 
 
-Initialize the production application and create a superuser adming account:
+Initialize the production application and create a superuser adming account.
+Run `eb ssh` inside of the root of the local application directory then run
+inside of the EB launched instance:
 ```
 # get all of the production environment env variable.s
-source /opt/python/current/env
-source /opt/python/run/venv/bin/activate
-cd /opt/python/current/app
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+$ source /opt/python/current/env
+$ source /opt/python/run/venv/bin/activate
+$ cd /opt/python/current/app
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py createsuperuser
 ```
+(You will probably need to `sudo su` to be able to execute the above. )
 
 Navigate to the eb generate url using `eb open` then use the above generated
 super user credentials to login and create other users.
