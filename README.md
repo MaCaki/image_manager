@@ -119,6 +119,8 @@ To run the tests, run
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
 - [X] Allow users to change password.
 - [ ] Store images in S3 in production.
+Private s3 images https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+
 - [ ] Change Study creation to allow for creation of Region at the same time.
 - [ ] Add api endpoint to request images filenames and grades with API key.
 
