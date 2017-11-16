@@ -26,15 +26,46 @@ Install the EBCLI
 ```
 pip install awsebcli --upgrade --user
 ```
+being sure to add `~/Library/Python/X.Y/bin` to your bash $PATH.
 
 To initialize the eb local environment.
 ```
 eb init -p python3.6 image_manager
 ```
+then `eb init` one more time to generate ssh keys to login to the machines that
+AWS creates.
+
 Create the eb remote environment.
+```
+eb create image-manager
+```
+
+Within the Elastic Beanstalk console, configure the following environment
+variable:
+```
+IM_ENV = 'prod'
+```
+
+
+Initialize the production application and create a superuser adming account:
+```
+# get all of the production environment env variable.s
+source /opt/python/current/env
+source /opt/python/run/venv/bin/activate
+cd /opt/python/current/app
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+Navigate to the eb generate url using `eb open` then use the above generated
+super user credentials to login and create other users.
+
 Deploy and verify.
 Create the database.
 Configure S3 buckets.
+
+
 
 #### Deploying local changes when developing.
 
@@ -95,6 +126,8 @@ To run the tests, run
 - [ ] Create a UI to grade patients.
 
 Deployment Infrastructure
+https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
+
 https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/
 - [ ] Deploy from Github
 - [ ] Set up an SMTP server using aws.ses.
