@@ -22,21 +22,63 @@ of training sets for image classification pipelines.
 
 ### Deployment to AWS Elastic Beanstalk
 
+#### Fresh start
+If you want to start with a fresh environment configuration, you will need to
+do the following:
 Install the EBCLI
 ```
 pip install awsebcli --upgrade --user
 ```
+being sure to add `~/Library/Python/X.Y/bin` to your bash $PATH.
 
 To initialize the eb local environment.
 ```
-eb init -p python3.6 image_manager
+eb init -p python3.6 image-manager
 ```
-Create the eb remote environment.
-Deploy and verify.
-Create the database.
-Configure S3 buckets.
+then `eb init` one more time to generate ssh keys to login to the machines that
+AWS creates.
 
-#### Deploying local changes when developing.
+Create the eb remote environment.
+```
+eb create image-manager
+```
+
+Within the Elastic Beanstalk console, configure the following environment
+variable:
+```
+IM_ENV = 'prod'
+```
+
+Initialize the production application and create a superuser adming account.
+Run `eb ssh` inside of the root of the local application directory then run
+inside of the EB launched instance:
+```
+# get all of the production environment env variable and activate python env.
+source /opt/python/current/env
+source /opt/python/run/venv/bin/activate
+cd /opt/python/current/app
+python manage.py createsuperuser
+```
+(You will probably need to `sudo su` to be able to execute the above. )
+
+
+#### From Saved Configuration
+
+Included in this repository is an up to date saved configuration that specifies
+the correct database, environment variable, python installation etc.  To deploy
+the application using this saved config run
+```bash
+eb config get image-manager-latest
+eb create --cfg  eb create --cfg image-manager-latest
+```
+NOTE: check the elastic beanstalk console to verify the name of the latest
+saved configuration.
+
+#### Verification
+
+Once the application is deployed navigate to the eb generate url using
+`eb open` then use the above generated super user credentials to login
+and create other users.
 
 
 ## Development Environment.
@@ -87,7 +129,12 @@ To run the tests, run
 - [X] Display images under each patient.
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
 - [X] Allow users to change password.
+- [ ] Add eb config to repository?
 - [ ] Store images in S3 in production.
+
+Private s3 images https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+
+- [ ] Change Study creation to allow for creation of Region at the same time.
 - [ ] Add api endpoint to request images filenames and grades with API key.
 
 - [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
@@ -95,6 +142,8 @@ To run the tests, run
 - [ ] Create a UI to grade patients.
 
 Deployment Infrastructure
+https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
+
 https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/
 - [ ] Deploy from Github
 - [ ] Set up an SMTP server using aws.ses.

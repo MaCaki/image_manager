@@ -1,4 +1,4 @@
-echo "If this is the first time you are running this dev db, docker will attempt to download the image from the internet. This could take a long time."
+echo "Building the postgres docker container for image-manger."
 
 # https://ryaneschinger.com/blog/dockerized-postgresql-development-environment/
 
@@ -19,7 +19,7 @@ while [ ! "$(docker ps -q -f name=image_manger_dev_db)" ]; do
     sleep 1
 done
 
-# A hacky way to wait for the new container instance to finish starting the postgres service so that 
+# A hacky way to wait for the new container instance to finish starting the postgres service so that
 # the db init commands below don't fail.
 while [ ! "$(PGPASSWORD=$PGPASSWORD psql -h localhost -U postgres -d postgres -c 'select 1234' | grep 1234)" ]; do
     echo 'Waiting for database to recieve connections...'

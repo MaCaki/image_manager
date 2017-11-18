@@ -15,18 +15,46 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_g96%rg6)an9jq=975o@ppad@y49&mq74^!^&uf+0uyh%f_x8p'
 
+DEBUG = False
+DEV_ENV = False
+PROD_ENV = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['IM_ENV'] == 'dev':
     DEBUG = True
     DEV_ENV = True
 
-ALLOWED_HOSTS = []
+elif os.environ['IM_ENV'] == 'prod':
+    PROD_ENV = True
+    PROD_LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': PROD_LOG_FILE,
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
+    }
+
+    ALLOWED_HOSTS = ['.elasticbeanstalk.com']
 
 
 # Application definition
@@ -78,7 +106,7 @@ WSGI_APPLICATION = 'image_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-if os.environ['IM_ENV'] == 'dev':
+if DEV_ENV:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -93,7 +121,7 @@ if os.environ['IM_ENV'] == 'dev':
     MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
     MEDIA_URL = "/media/"
 
-else:  # We're in production environment.
+elif PROD_ENV:  # We're in production environment.
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -146,4 +174,5 @@ SHELL_PLUS = "ipython"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 STATIC_URL = '/static/'
