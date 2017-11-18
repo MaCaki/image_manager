@@ -55,8 +55,6 @@ inside of the EB launched instance:
 $ source /opt/python/current/env
 $ source /opt/python/run/venv/bin/activate
 $ cd /opt/python/current/app
-$ python manage.py makemigrations
-$ python manage.py migrate
 $ python manage.py createsuperuser
 ```
 (You will probably need to `sudo su` to be able to execute the above. )
