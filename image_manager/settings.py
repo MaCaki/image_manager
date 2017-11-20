@@ -71,7 +71,7 @@ elif os.environ['IM_ENV'] == 'stage':
         },
     }
 
-    ALLOWED_HOSTS = ['.elasticbeanstalk.com']
+    ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -111,7 +111,7 @@ elif os.environ['IM_ENV'] == 'prod':
         },
     }
 
-    ALLOWED_HOSTS = ['.elasticbeanstalk.com']
+    ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
 
     DATABASES = {
         'default': {
