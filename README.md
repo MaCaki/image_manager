@@ -68,11 +68,12 @@ Included in this repository is an up to date saved configuration that specifies
 the correct database, environment variable, python installation etc.  To deploy
 the application using this saved config run
 ```bash
-eb config get image-manager-latest
-eb create --cfg  eb create --cfg image-manager-latest
+eb config get image-manager-latest-stage
+eb create --cfg  eb create --cfg image-manager-latest-stage
 ```
 NOTE: check the elastic beanstalk console to verify the name of the latest
 saved configuration.
+Once the changes are verified, repeat for prod.
 
 #### Verification
 
