@@ -215,10 +215,6 @@ SHELL_PLUS = "ipython"
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 STATIC_URL = '/static/'
 
-#  Aws creds and bucket name
-
-AWS_ACCESS_KEY_ID = 'AKIAIT2Z5TDYPX3ARJBA'
-AWS_SECRET_ACCESS_KEY = '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'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 AWS_S3_OBJECT_PARAMETERS = {
