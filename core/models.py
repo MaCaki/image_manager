@@ -30,8 +30,6 @@ class EyeLid(models.Model):
     """A wrapper around a stored image file of an eyelid."""
     tagline = models.TextField()
     uploaded = models.DateTimeField(auto_now=True)
-    # TODO: redirect this to the default file storage for env.
-    #  https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
     image = models.ImageField()
     patient = models.ForeignKey(
         Patient,
