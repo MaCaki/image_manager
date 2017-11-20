@@ -24,38 +24,104 @@ SECRET_KEY = '_g96%rg6)an9jq=975o@ppad@y49&mq74^!^&uf+0uyh%f_x8p'
 
 DEBUG = False
 DEV_ENV = False
+STAGE_ENV = False
 PROD_ENV = False
+AWS_STORAGE_BUCKET_NAME = None
+
+# this log file is only used in stage or prod right now.  In future, when
+# the dev environment is containerized it can be used there as well.
+LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['IM_ENV'] == 'dev':
     DEBUG = True
     DEV_ENV = True
 
-elif os.environ['IM_ENV'] == 'prod':
-    PROD_ENV = True
-    PROD_LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('IM_POSTGRES_NAME'),
+            'USER': os.environ.get('IM_POSTGRES_USER'),
+            'PASSWORD': os.environ.get('IM_POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('IM_POSTGRES_HOST'),
+            'PORT': 5432,
+        }
+    }
+    # store image files locally in the same directory.
+    MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
+    MEDIA_URL = "/media/"
 
+#  --------  STAGE
+elif os.environ['IM_ENV'] == 'stage':
+    AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-stage'
+    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
+    ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+
+    # Use s3 in stage and production.
+    DEFAULT_FILE_STORAGE = 'core.backends.s3.PrivateMediaStorage'
+
+#  -------  PROD
+elif os.environ['IM_ENV'] == 'prod':
+    AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-prod'
+    PROD_ENV = True
+    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
+
+if os.environ['IM_ENV'] in ('prod', 'stage'):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            },
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+        },
         'handlers': {
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': PROD_LOG_FILE,
+                'filename': LOG_FILE,
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['file'],
-                'level': 'DEBUG',
+                'level': 'INFO',
                 'propagate': True,
             },
         },
     }
 
-    ALLOWED_HOSTS = ['.elasticbeanstalk.com']
+    ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+
+    # Use s3 in stage and production.
+    DEFAULT_FILE_STORAGE = 'core.backends.s3.PrivateMediaStorage'
 
 # Application definition
 
@@ -104,38 +170,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'image_manager.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-if DEV_ENV:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ.get('IM_POSTGRES_NAME'),
-            'USER': os.environ.get('IM_POSTGRES_USER'),
-            'PASSWORD': os.environ.get('IM_POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('IM_POSTGRES_HOST'),
-            'PORT': 5432,
-        }
-    }
-    # store image files locally in the same directory.
-    MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
-    MEDIA_URL = "/media/"
-
-elif PROD_ENV:  # We're in production environment.
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
-
-    # Use s3 in production.
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -176,3 +210,14 @@ SHELL_PLUS = "ipython"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 STATIC_URL = '/static/'
+
+# NOTE: boto3 will be able acces s3 from the Elastic Beanstalk EC2 instances
+# based on their attached IAM policy.  No environment credentials are needed.
+
+AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_PRIVATE_MEDIA_LOCATION = 'images/private'

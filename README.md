@@ -68,11 +68,12 @@ Included in this repository is an up to date saved configuration that specifies
 the correct database, environment variable, python installation etc.  To deploy
 the application using this saved config run
 ```bash
-eb config get image-manager-latest
-eb create --cfg  eb create --cfg image-manager-latest
+eb config get image-manager-latest-stage
+eb create --cfg  image-manager-latest-stage
 ```
 NOTE: check the elastic beanstalk console to verify the name of the latest
 saved configuration.
+Once the changes are verified, repeat for prod.
 
 #### Verification
 
@@ -129,17 +130,20 @@ To run the tests, run
 - [X] Display images under each patient.
 - [X] Create a user login flow and add LoginRequiredMixin to all relevant views.
 - [X] Allow users to change password.
-- [ ] Add eb config to repository?
-- [ ] Store images in S3 in production.
-
-Private s3 images https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
-
-- [ ] Change Study creation to allow for creation of Region at the same time.
+- [X] Store images in S3 in production.
+- [X] Change Study creation to allow for creation of Region at the same time.
+----- Release 0
+- [ ] Allow users to modify their profile.
 - [ ] Add api endpoint to request images filenames and grades with API key.
-
-- [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
+
+---- Release 1
+- [ ] Show all images that a user has graded with opportunity to modify.
+
+
+#### Cool features
+- [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
 
 Deployment Infrastructure
 https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
