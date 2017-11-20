@@ -28,6 +28,11 @@ STAGE_ENV = False
 PROD_ENV = False
 AWS_STORAGE_BUCKET_NAME = None
 
+# this log file is only used in stage or prod right now.  In future, when
+# the dev environment is containerized it can be used there as well.
+LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['IM_ENV'] == 'dev':
     DEBUG = True
@@ -50,26 +55,7 @@ if os.environ['IM_ENV'] == 'dev':
 #  --------  STAGE
 elif os.environ['IM_ENV'] == 'stage':
     AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-stage'
-    STAGE_LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
-
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'file': {
-                'level': 'DEBUG',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': STAGE_LOG_FILE,
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
-                'propagate': True,
-            },
-        },
-    }
+    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
 
     ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
     DATABASES = {
@@ -90,22 +76,32 @@ elif os.environ['IM_ENV'] == 'stage':
 elif os.environ['IM_ENV'] == 'prod':
     AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-prod'
     PROD_ENV = True
-    PROD_LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
+    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
 
+
+if os.environ['IM_ENV'] in ('prod', 'stage'):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            },
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+        },
         'handlers': {
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': PROD_LOG_FILE,
+                'filename': LOG_FILE,
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['file'],
-                'level': 'DEBUG',
+                'level': 'INFO',
                 'propagate': True,
             },
         },
@@ -215,7 +211,10 @@ SHELL_PLUS = "ipython"
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 STATIC_URL = '/static/'
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# NOTE: boto3 will be able acces s3 from the Elastic Beanstalk EC2 instances
+# based on their attached IAM policy.  No environment credentials are needed.
+
+AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
 
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
