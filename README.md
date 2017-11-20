@@ -132,24 +132,23 @@ To run the tests, run
 - [X] Allow users to change password.
 - [X] Store images in S3 in production.
 - [X] Change Study creation to allow for creation of Region at the same time.
+
 ----- Release 0
+- [ ] Set up an SMTP server using aws.ses.
 - [ ] Allow users to modify their profile.
-- [ ] Add api endpoint to request images filenames and grades with API key.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 
 ---- Release 1
 - [ ] Show all images that a user has graded with opportunity to modify.
+- [ ] Add api endpoint to request images filenames and grades with API key.
 
 
 #### Cool features
-- [ ] Add drag and drop : https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/
+- [ ] [Add drag and drop](https://www.calazan.com/adding-drag-and-drop-image-uploads-to-your-django-site-in-5-minutes-with-dropzonejs/)
 
-Deployment Infrastructure
-https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
+Deploy and Dev Infrastructure
 
-https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/
-- [ ] Deploy from Github
-- [ ] Set up an SMTP server using aws.ses.
+- [ ] Deploy from Github using [CodeDeploy](https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/)
 - [ ] Put the django server in a docker container.
 
