@@ -80,6 +80,10 @@ elif os.environ['IM_ENV'] == 'prod':
 
 
 if os.environ['IM_ENV'] in ('prod', 'stage'):
+    EMAIL_BACKEND = 'django_ses.SESBackend'
+    AWS_SES_REGION_NAME = 'us-west-2'
+    AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
+
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,

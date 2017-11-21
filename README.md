@@ -16,8 +16,10 @@ of training sets for image classification pipelines.
 
 #### Data grading
 1) user clicks on a study.
-2) Patients are displayed that they have not graded yet as well as patients that they have graded.
-3) User clicks on a patient.  They can issue a new grade for a new patient, or create a new grade for a patient they've already graded.
+2) Patients are displayed that they have not graded yet as well as patients that
+    they have graded.
+3) User clicks on a patient.  They can issue a new grade for a new patient,
+    or create a new grade for a patient they've already graded.
 
 
 ### Deployment to AWS Elastic Beanstalk
@@ -68,8 +70,8 @@ Included in this repository is an up to date saved configuration that specifies
 the correct database, environment variable, python installation etc.  To deploy
 the application using this saved config run
 ```bash
-eb config get image-manager-latest-stage
-eb create --cfg  image-manager-latest-stage
+eb config get image-manager-stage
+eb create --cfg  image-manager-stage
 ```
 NOTE: check the elastic beanstalk console to verify the name of the latest
 saved configuration.
@@ -136,6 +138,7 @@ To run the tests, run
 ----- Release 0
 - [ ] Set up an SMTP server using aws.ses.
 - [ ] Allow users to modify their profile.
+- [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
 
