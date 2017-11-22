@@ -28,6 +28,8 @@ STAGE_ENV = False
 PROD_ENV = False
 AWS_STORAGE_BUCKET_NAME = None
 
+DEFAULT_FROM_EMAIL = 'robot@proctorgradingcenter.edu'
+
 # this log file is only used in stage or prod right now.  In future, when
 # the dev environment is containerized it can be used there as well.
 LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
