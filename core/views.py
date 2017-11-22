@@ -29,6 +29,10 @@ class AccountUpdateView(ImageManagerBase, generic.edit.UpdateView):
     template_name = 'account/user_form.html'
     fields = ['email', 'first_name', 'last_name']
 
+    def get_success_url(self):
+        """Redirect user back to profile view."""
+        return reverse('core:user-home')
+
     def get_object(self):
         """We override this function as there is no pk passed from the url."""
         current_user = self.request.user

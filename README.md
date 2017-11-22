@@ -138,11 +138,17 @@ To run the tests, run
 ----- Release 0
 - [x] Set up an SMTP server using aws.ses.
 - [X] Allow users to modify their profile.
-- [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
-- [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
+- [ ] Write functions to add grades for patients from users.
+- [X] Stub out API and install django rest api.
+- [ ] Write a test suite.
 
 ---- Release 1
+- [ ] Write a function around the eyelid images that extracts the full file path.
+- [ ] Fill in EyeLidKeyGradeList with basic list functionality and params (
+        limit, graded/ungraded
+    )
+- [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
 - [ ] Show all images that a user has graded with opportunity to modify.
 - [ ] Add api endpoint to request images filenames and grades with API key.
 

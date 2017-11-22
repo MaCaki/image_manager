@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from . import views
+from . import api
 
 app_name = 'core'
 
@@ -47,4 +48,6 @@ urlpatterns = [
         views.EyeLidUploadView.as_view(),
         name='upload-eyelids'
     ),
+    #  Api endpoints.
+    url(r'^api/v0/eyelids/$', api.EyeLidKeyGradeList.as_view())
 ]
