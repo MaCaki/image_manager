@@ -195,7 +195,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_REDIRECT_URL = '/users/home'
-
+LOGIN_URL = '/login'
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -226,4 +226,5 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
+# This is the prefix of the file path
 AWS_PRIVATE_MEDIA_LOCATION = 'images/private'

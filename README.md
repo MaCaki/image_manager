@@ -137,7 +137,7 @@ To run the tests, run
 
 ----- Release 0
 - [x] Set up an SMTP server using aws.ses.
-- [ ] Allow users to modify their profile.
+- [X] Allow users to modify their profile.
 - [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
 - [ ] Write functions to add grades for patients from users.
 - [ ] Create a UI to grade patients.
