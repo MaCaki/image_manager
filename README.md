@@ -136,7 +136,7 @@ To run the tests, run
 - [X] Change Study creation to allow for creation of Region at the same time.
 
 ----- Release 0
-- [ ] Set up an SMTP server using aws.ses.
+- [x] Set up an SMTP server using aws.ses.
 - [ ] Allow users to modify their profile.
 - [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
 - [ ] Write functions to add grades for patients from users.
@@ -155,3 +155,8 @@ Deploy and Dev Infrastructure
 - [ ] Deploy from Github using [CodeDeploy](https://aws.amazon.com/blogs/devops/automatically-deploy-from-github-using-aws-codedeploy/)
 - [ ] Put the django server in a docker container.
 
+Domain name stuff
+
+- [ ] Verify registration of ucsfproctorgrading.center.
+- [ ] Verify the domain with AWS SES to send emails.
+- [ ] Route ucsfproctorgrading.center [to EB deploy](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-beanstalk-environment.html)

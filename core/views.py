@@ -24,6 +24,18 @@ class UserHomeView(ImageManagerBase, generic.DetailView):
         return current_user
 
 
+class AccountUpdateView(ImageManagerBase, generic.edit.UpdateView):
+    model = User
+    template_name = 'account/user_form.html'
+    fields = ['email', 'first_name', 'last_name']
+
+    def get_object(self):
+        """We override this function as there is no pk passed from the url."""
+        current_user = self.request.user
+
+        return current_user
+
+
 class StudyIndexView(ImageManagerBase, generic.ListView):
     """The landing page for the app is a list of studies to grade for."""
     model = Study

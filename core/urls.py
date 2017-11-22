@@ -6,6 +6,11 @@ app_name = 'core'
 
 urlpatterns = [
     url(r'^users/home', views.UserHomeView.as_view(), name='user-home'),
+    url(
+        r'^users/edit',
+        views.AccountUpdateView.as_view(),
+        name='account-update'
+    ),
     url(r'^$', views.StudyIndexView.as_view(), name='study-index'),
     url(
         r'^(?P<pk>[0-9]+)/$',
