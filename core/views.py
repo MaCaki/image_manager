@@ -51,6 +51,11 @@ class StudyDetailView(ImageManagerBase, generic.DetailView):
     template_name = 'core/study_detail.html'
 
 
+class GradeStudyView(ImageManagerBase, generic.DetailView):
+    model = Study
+    template_name = 'grading/grade_study.html'
+
+
 class StudyCreateView(ImageManagerBase, generic.edit.CreateView):
     model = Study
     fields = ['name', 'region', 'description']

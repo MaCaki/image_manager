@@ -29,6 +29,11 @@ urlpatterns = [
         name='delete-study'
     ),
     url(
+        r'^(?P<pk>[0-9]+)/grade$',
+        views.GradeStudyView.as_view(),
+        name='grade-study'
+    ),
+    url(
         r'^(?P<pk>[0-9]+)/create-patient$',
         views.PatientCreateView.as_view(),
         name='create-patient'

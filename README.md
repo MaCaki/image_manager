@@ -22,6 +22,34 @@ of training sets for image classification pipelines.
     or create a new grade for a patient they've already graded.
 
 
+## Architecture of applications
+
+The `core` app defines models for studies, patients belonging to those studies,
+and images belonging to those patients.  The core views are responsible for
+displaying all studies, creating, editing, and inspecting those studies, and
+likewise with patients.  The core views also handle uploading files, allowing
+study administrator users and image collectors to add images to studies.
+Additionally user account management is handled by the core application.
+
+The `grade` app defines models that define the structure of a grade type. These
+are administrator defined questions with a static set of options that graders
+can chose from.  The grading views are distinct from the core views so that
+they the logic of how the images are exposed during a 'grading session' is
+isolated from the normal list view.
+
+A user is 'sent to' the grade app through from the core app when they start
+grading a study. The study object has a `GradeTypes` assigned to it
+through a one to many foreign key relationship from the `grade.GradeType`.
+The grading app then constructs forms for each grade type assigned to that
+study and sends them to the user alongside samplings of images for that
+study.
+
+When the user fills out and submits the form, the data is parsed into
+`GradeEntry` objects, one for each `GradeField` assigned to the `GradeType`
+and is saved along with a `Grade` object, which unifies all the entries through
+ a foreign key relationship.
+
+
 ### Deployment to AWS Elastic Beanstalk
 
 #### Fresh start
@@ -138,7 +166,8 @@ To run the tests, run
 ----- Release 0
 - [x] Set up an SMTP server using aws.ses.
 - [X] Allow users to modify their profile.
-- [ ] Create a UI to grade patients.
+- [ ] Create a grading app with models for user defined grade types.
+- [ ] Attach a grade to a image.
 - [ ] Write functions to add grades for patients from users.
 - [X] Stub out API and install django rest api.
 - [ ] Write a test suite.

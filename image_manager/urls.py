@@ -12,6 +12,7 @@ from django.conf.urls import (
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -36,6 +37,18 @@ urlpatterns = [
         r'^reset/done/$',
         auth_views.password_reset_complete,
         name='password_reset_complete'
+    ),
+    url(
+        r'^change_password/$',
+        auth_views.password_change,
+        name='change-password'
+    ),
+    url(
+        r'^password-change-done/$',
+         TemplateView.as_view(
+            template_name='account/password_change_done.html'
+         ),
+        name='password_change_done'
     ),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls')),  # redirect to the core app.
