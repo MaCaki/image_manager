@@ -1,7 +1,8 @@
-from django.db import models
 from django.urls import reverse
+from django.db import models
 
-from grade import Grade
+from grade import Grade, GradeType
+
 
 class Study(models.Model):
     """A study object."""
@@ -9,28 +10,37 @@ class Study(models.Model):
     name = models.CharField(max_length=1000)
     region = models.CharField(max_length=1000)
     description = models.TextField()
+    grade_type = models.ForeignKey(
+        GradeType, default=None, blank=True, null=True
+    )
 
     def __str__(self):
+        """Print the name and region of the study."""
         return "{}: {}".format(self.name, self.region)
 
     def get_absolute_url(self):
+        """Redirect back to the study detail page."""
         return reverse('core:study-detail', kwargs={'pk': self.pk})
 
 
 class Patient(models.Model):
     """An anonymized subject of a Trachoma study."""
+
     study = models.ForeignKey(Study)
     uid = models.IntegerField(default=0, unique=True)
 
     def __str__(self):
+        """Just print the uid."""
         return str(self.uid)
 
     def get_absolute_url(self):
+        """Back to patient detial."""
         return reverse('core:patient-detail', kwargs={'pk': self.pk})
 
 
 class EyeLid(models.Model):
     """A wrapper around a stored image file of an eyelid."""
+
     tagline = models.TextField()
     uploaded = models.DateTimeField(auto_now=True)
     image = models.ImageField()
@@ -60,5 +70,4 @@ class PatientGrade(Grade):
 
     maintining the grade app as an isolated and reusable module.
     """
-    pass
-
+    patient = models.ForeignKey(Patient)
