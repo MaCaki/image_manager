@@ -134,6 +134,7 @@ if os.environ['IM_ENV'] in ('prod', 'stage'):
 
 INSTALLED_APPS = [
     'core.apps.CoreConfig',
+    'grade.apps.GradeConfig',
     'storages',
     'rest_framework',
     'django_extensions',

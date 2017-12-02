@@ -20,6 +20,8 @@ class EyeLidKeyGradeList(APIView):
 
     def get(self, request, format=None):
         """Get a list of all the images and their gradies."""
+
+        # TODO: return actual data.
         dummy_data = {
             'images': [1, 2, 3, 4]
         }

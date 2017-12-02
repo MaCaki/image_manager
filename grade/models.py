@@ -36,7 +36,7 @@ class GradeEntry(models.Model):
     grading patients.
     """
 
-    grade = models.ForeignKey()  # this is a many to one relationship.
+    grade = models.ForeignKey('grade.Grade')
     grade_field_type = models.ForeignKey('grade.GradeField')
     value = models.CharField(max_length=100)
 
@@ -69,6 +69,9 @@ class GradeType(models.Model):
     """
 
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class GradeField(models.Model):
