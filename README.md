@@ -166,8 +166,8 @@ To run the tests, run
 ----- Release 0
 - [x] Set up an SMTP server using aws.ses.
 - [X] Allow users to modify their profile.
-- [ ] Create a grading app with models for user defined grade types.
-- [ ] Attach a grade to a image.
+- [X] Create a grading app with models for user defined grade types.
+- [X] Attach a grade to a patient.
 - [ ] Write functions to add grades for patients from users.
 - [X] Stub out API and install django rest api.
 - [ ] Write a test suite.

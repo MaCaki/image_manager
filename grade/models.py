@@ -16,6 +16,10 @@ Grade
     \___grade_entry_2
     \_...
 
+The Grade object needs to grade something.  It is meant to be subclassed
+in the models.py file of the app that needs grading, with the
+ObjectGrade(Grade) subclass having a foreign key pointing to the object
+of the grade.
 """
 from django.db import models
 from django.contrib.auth.models import User

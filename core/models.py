@@ -1,7 +1,10 @@
 from django.urls import reverse
 from django.db import models
 
-from grade.models import Grade, GradeType
+from grade.models import (
+    Grade,
+    GradeType,
+)
 
 
 class Study(models.Model):
