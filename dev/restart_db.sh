@@ -1,1 +1,0 @@
-docker restart image_manger_dev_db

@@ -23,10 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_g96%rg6)an9jq=975o@ppad@y49&mq74^!^&uf+0uyh%f_x8p'
 
 DEBUG = False
-DEV_ENV = False
-STAGE_ENV = False
-PROD_ENV = False
-AWS_STORAGE_BUCKET_NAME = None
+
+# Flags for determning which environment.
+# this is messy, may clean up later.
+DEV_ENV = os.environ['IM_ENV'] == 'dev'
+STAGE_ENV = os.environ['IM_ENV'] == 'stage'
+PROD_ENV = os.environ['IM_ENV'] == 'prod'
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_IMAGE_BUCKET')
 
 DEFAULT_FROM_EMAIL = 'robot@ucsfproctorgrading.center'
 
@@ -36,10 +40,11 @@ LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ['IM_ENV'] == 'dev':
+if DEV_ENV:
     DEBUG = True
     DEV_ENV = True
 
+    ALLOWED_HOSTS = ['0.0.0.0']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -54,38 +59,16 @@ if os.environ['IM_ENV'] == 'dev':
     MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
     MEDIA_URL = "/media/"
 
-#  --------  STAGE
-elif os.environ['IM_ENV'] == 'stage':
-    AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-stage'
-    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
 
-    ALLOWED_HOSTS = ['localhost', '.elasticbeanstalk.com']
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
-
-    # Use s3 in stage and production.
-    DEFAULT_FILE_STORAGE = 'core.backends.s3.PrivateMediaStorage'
-
-#  -------  PROD
-elif os.environ['IM_ENV'] == 'prod':
-    AWS_STORAGE_BUCKET_NAME = 'proctor-ucsf-image-manager-prod'
-    PROD_ENV = True
-    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
-
-
+# Setup logging for prod.
 if os.environ['IM_ENV'] in ('prod', 'stage'):
     EMAIL_BACKEND = 'django_ses.SESBackend'
     AWS_SES_REGION_NAME = 'us-west-2'
     AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
+    # Use s3 in stage and production.
+    DEFAULT_FILE_STORAGE = 'core.backends.s3.PrivateMediaStorage'
 
+    LOG_FILE = '/var/log/image_manager_logs/image_manager.log'
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -126,8 +109,6 @@ if os.environ['IM_ENV'] in ('prod', 'stage'):
         }
     }
 
-    # Use s3 in stage and production.
-    DEFAULT_FILE_STORAGE = 'core.backends.s3.PrivateMediaStorage'
 
 # Application definition
 

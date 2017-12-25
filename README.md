@@ -114,34 +114,23 @@ and create other users.
 
 ## Development Environment.
 
-Create a virtual environment for dev.  From within the /image_manager directory run:
+Within the dev environment the django webserver and the postgres database each
+run inside their own docker container.   You can launch both of them using
+the `docker-compose up --build` command.
 
-```bash
-python3 -m venv django-env -r=requirements.txt
-. django-env/bin/activate
-pip install -r requirements.txt
-```
+The database container will run some initialiation sql commands found in
+`dev/init_db.sql`.
 
+After running the above `docker-compose` command, you should see the both
+`imagemanager_db_1` and `imagemanager_web_1` running.   You can navigate to
+http://0.0.0.0/8000
 
-To set up the dev database do the following:
-
-1) Install Docker.
-
-2) Install Postgres (for the `psql` command line clinent): `brew install postgres`
-
-3) Run `. dev/setup_db.sh` to stand up a docker image runnning Postgres
-
-4) Run `python manage.py migrate` to set up the app schemas.
-
-5) Then run `. dev/init_db.sh` to create some test data.
-
-6) Run `. dev/runserver.sh` to start the web server. Visit the localhost:8000/ to ensure that it's running.
-
-Create an admin user for the development application:
+Create an admin user for the development application, run bash within
+the web server with `docker-compose run web bash` and run/;
 ```bash
 python manager.py createsuperuser
 Username: admin
-Email address:
+Email address: admin@mail.com
 Password: adminpass123
 ```
 
@@ -150,7 +139,7 @@ Password: adminpass123
 
 To run the tests, run
 ```bash
- . dev/run_tests.sh
+docker-compose run web ## run tests
 ```
 
 
@@ -164,20 +153,22 @@ To run the tests, run
 - [X] Change Study creation to allow for creation of Region at the same time.
 
 ----- Release 0
+- [x] dockerize the django server.
+- [s] wrap dev environment in docker-compose.
 - [x] Set up an SMTP server using aws.ses.
 - [X] Allow users to modify their profile.
 - [X] Create a grading app with models for user defined grade types.
 - [X] Attach a grade to a patient.
-- [ ] Write functions to add grades for patients from users.
 - [X] Stub out API and install django rest api.
-- [ ] Write a test suite.
 
 ---- Release 1
+- [ ] Write functions to add grades for patients from users.
+- [ ] Write a test suite.
 - [ ] Write a function around the eyelid images that extracts the full file path.
 - [ ] Fill in EyeLidKeyGradeList with basic list functionality and params (
         limit, graded/ungraded
     )
-- [ ] Verify that non-expiring s3 keys can be extracted from the Image model.
+- [ ] Verify that non-expiring s3 keys can be extracted from the Image model for export.
 - [ ] Show all images that a user has graded with opportunity to modify.
 - [ ] Add api endpoint to request images filenames and grades with API key.
 
