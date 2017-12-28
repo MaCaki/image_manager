@@ -5,15 +5,20 @@ from django.views import generic
 
 
 from .forms import UploadImageForm
-from .models import EyeLid, Patient, Study
+from .models import (
+    EyeLid,
+    Patient,
+    Study,
+    PatientGrade
+)
 
 
-class ImageManagerBase(LoginRequiredMixin):
+class ImageManagerBaseView(LoginRequiredMixin):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
 
 
-class UserHomeView(ImageManagerBase, generic.DetailView):
+class UserHomeView(ImageManagerBaseView, generic.DetailView):
     model = User
     template_name = 'account/profile.html'
 
@@ -24,39 +29,60 @@ class UserHomeView(ImageManagerBase, generic.DetailView):
         return current_user
 
 
-class StudyIndexView(ImageManagerBase, generic.ListView):
+class AccountUpdateView(ImageManagerBaseView, generic.edit.UpdateView):
+    model = User
+    template_name = 'account/user_form.html'
+    fields = ['email', 'first_name', 'last_name']
+
+    def get_success_url(self):
+        """Redirect user back to profile view."""
+        return reverse('core:user-home')
+
+    def get_object(self):
+        """We override this function as there is no pk passed from the url."""
+        current_user = self.request.user
+
+        return current_user
+
+
+class StudyIndexView(ImageManagerBaseView, generic.ListView):
     """The landing page for the app is a list of studies to grade for."""
     model = Study
     template_name = 'core/study_index.html'
 
 
-class StudyDetailView(ImageManagerBase, generic.DetailView):
+class StudyDetailView(ImageManagerBaseView, generic.DetailView):
     model = Study
     template_name = 'core/study_detail.html'
 
 
-class StudyCreateView(ImageManagerBase, generic.edit.CreateView):
+class GradeStudyView(ImageManagerBaseView, generic.DetailView):
+    model = Study
+    template_name = 'grading/grade_study.html'
+
+
+class StudyCreateView(ImageManagerBaseView, generic.edit.CreateView):
     model = Study
     fields = ['name', 'region', 'description']
     # TODO: check if study name already exists.
 
 
-class StudyDeleteView(ImageManagerBase, generic.edit.DeleteView):
+class StudyDeleteView(ImageManagerBaseView, generic.edit.DeleteView):
     model = Study
     success_url = reverse_lazy('core:study-index')
 
 
-class PatientDetailView(ImageManagerBase, generic.DetailView):
+class PatientDetailView(ImageManagerBaseView, generic.DetailView):
     model = Patient
     template_name = 'core/patient_detail.html'
 
 
-class EyelidDetailView(ImageManagerBase, generic.DetailView):
+class EyelidDetailView(ImageManagerBaseView, generic.DetailView):
     model = EyeLid
     template_name = 'core/eyelid_detail.html'
 
 
-class PatientCreateView(ImageManagerBase, generic.edit.CreateView):
+class PatientCreateView(ImageManagerBaseView, generic.edit.CreateView):
     model = Patient
     fields = ['uid']
 
@@ -78,7 +104,7 @@ class PatientCreateView(ImageManagerBase, generic.edit.CreateView):
         return context
 
 
-class EyeLidUploadView(ImageManagerBase, generic.edit.FormView):
+class EyeLidUploadView(ImageManagerBaseView, generic.edit.FormView):
     # Image editor post.
     # https://conservancy.umn.edu/bitstream/handle/11299/107353/oh375mh.pdf?sequence=1&isAllowed=y
 
@@ -116,3 +142,16 @@ class EyeLidUploadView(ImageManagerBase, generic.edit.FormView):
         else:
             print('Form is invalid')
             return self.form_invalid(form)
+
+
+class GradePatientView(ImageManagerBaseView, generic.edit.CreateView):
+    """View a Patients images and issue a grade.
+
+    If the logged in user already has a grade for this patient, do not allow
+    them to create another one.
+
+    Other grades should not be displayed while grading.
+    """
+    model = PatientGrade
+    template_name = 'grading/grade_patient.html'
+

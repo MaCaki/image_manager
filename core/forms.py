@@ -1,6 +1,9 @@
 from django import forms
 
-from .models import EyeLid
+from .models import (
+    EyeLid,
+    PatientGrade
+)
 
 
 class EyelidForm(forms.ModelForm):
@@ -16,3 +19,12 @@ class UploadImageForm(forms.Form):
             attrs={'multiple': True}
         )
     )
+
+
+class PatientGradeForm(forms.ModelForm):
+    """Create a form for all entries required for a Grade object.
+
+    https://jacobian.org/writing/dynamic-form-generation/
+    """
+
+    pass

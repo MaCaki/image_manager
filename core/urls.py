@@ -1,11 +1,17 @@
 from django.conf.urls import url
 
 from . import views
+from . import api
 
 app_name = 'core'
 
 urlpatterns = [
     url(r'^users/home', views.UserHomeView.as_view(), name='user-home'),
+    url(
+        r'^users/edit',
+        views.AccountUpdateView.as_view(),
+        name='account-update'
+    ),
     url(r'^$', views.StudyIndexView.as_view(), name='study-index'),
     url(
         r'^(?P<pk>[0-9]+)/$',
@@ -21,6 +27,11 @@ urlpatterns = [
         r'^delete-study/(?P<pk>[0-9]+)/$',
         views.StudyDeleteView.as_view(),
         name='delete-study'
+    ),
+    url(
+        r'^(?P<pk>[0-9]+)/grade$',
+        views.GradeStudyView.as_view(),
+        name='grade-study'
     ),
     url(
         r'^(?P<pk>[0-9]+)/create-patient$',
@@ -42,4 +53,6 @@ urlpatterns = [
         views.EyeLidUploadView.as_view(),
         name='upload-eyelids'
     ),
+    #  Api endpoints.
+    url(r'^api/v0/eyelids/$', api.EyeLidKeyGradeList.as_view())
 ]

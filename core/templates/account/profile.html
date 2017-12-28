@@ -12,6 +12,13 @@
         <strong>email:</strong> {{ user.email }}
 
         <br>
+    </p>
+
+    <p>
+        <a href={% url 'core:account-update' %}>Edit profile information.</a>
+        <br>
+        <a href="{% url 'change-password' %}">Change password</a>
+        <br>
 
         TODO: some stats about usage.
     </p>

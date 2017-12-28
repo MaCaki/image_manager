@@ -12,6 +12,9 @@
     <strong>Region:</strong> {{ study.region.name }}
 </p>
 
+<a href={% url 'core:grade-study' study.id %}> Grade Patients in this Study! </a>
+
+
 <h2> Patients </h2>
     <ul>
     {% for patient in study.patient_set.all %}
