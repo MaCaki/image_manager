@@ -118,22 +118,15 @@ Within the dev environment the django webserver and the postgres database each
 run inside their own docker container.   You can launch both of them using
 the `docker-compose up --build` command.
 
-The database container will run some initialiation sql commands found in
-`dev/init_db.sql`.
 
 After running the above `docker-compose` command, you should see the both
 `imagemanager_db_1` and `imagemanager_web_1` running.   You can navigate to
-http://0.0.0.0/8000
+http://0.0.0.0/8000 to see the web UI.
 
-Create an admin user for the development application, run bash within
-the web server with `docker-compose run web bash` and run/;
-```bash
-python manager.py createsuperuser
-Username: admin
-Email address: admin@mail.com
-Password: adminpass123
+To create the dev admin user, run
 ```
-
+docker-compose run --entrypoint bash web -c 'python manage.py runscript create_dev_user'
+```
 
 #### Testing
 
@@ -160,7 +153,7 @@ docker-compose run web ## run tests
 - [X] Create a grading app with models for user defined grade types.
 - [X] Attach a grade to a patient.
 - [X] Stub out API and install django rest api.
-- [ ] add script to create dev super user to dockerfiles
+- [X] add script to create dev super user to dockerfiles
 
 ---- Release 1
 - [ ] Adform that dynamically

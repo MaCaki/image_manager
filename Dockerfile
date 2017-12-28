@@ -14,4 +14,3 @@ RUN chmod +x /home/bin/web_entrypoint.sh
 ENTRYPOINT /home/bin/web_entrypoint.sh
 
 ADD . /home/image_manager/
-
