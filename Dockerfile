@@ -15,4 +15,3 @@ ENTRYPOINT /home/bin/web_entrypoint.sh
 
 ADD . /home/image_manager/
 
-CMD python3 manage.py runserver 0.0.0.0:8000

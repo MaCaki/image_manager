@@ -160,8 +160,10 @@ docker-compose run web ## run tests
 - [X] Create a grading app with models for user defined grade types.
 - [X] Attach a grade to a patient.
 - [X] Stub out API and install django rest api.
+- [ ] add script to create dev super user to dockerfiles
 
 ---- Release 1
+- [ ] Adform that dynamically
 - [ ] Write functions to add grades for patients from users.
 - [ ] Write a test suite.
 - [ ] Write a function around the eyelid images that extracts the full file path.
